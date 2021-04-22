@@ -24,7 +24,7 @@ describe('index.test.js', function () {
       parser(url).should.equal('github.com/banchee/tranquil.git');
     });
 
-    it('should return undefined on failure', function () {
+    it('should parse unnamed repo url', function () {
       var url = 'git://github.com/justgord/.git';
       parser(url).should.equal('github.com/justgord/.git');
     });
@@ -49,19 +49,22 @@ describe('index.test.js', function () {
       parser(url).should.equal('dev.sh.westudio.com/framework/Tunnel.git');
     });
 
-    it('should abc', function () {
+    it('should parse ssh url including port', function () {
       var url = 'ssh://user@host.xz:1234/path/to/repo.git';
       parser(url).should.equal('host.xz:1234/path/to/repo.git');
     });
-    it('should abc2', function () {
+
+    it('should parse https url including user:pass combination', function () {
       var url = 'https://user:passwd@host.xz:1234/path/to/repo.git';
       parser(url).should.equal('host.xz:1234/path/to/repo.git');
     });
-    it('should abc3', function () {
+
+    it('should parse short form ssh url with username', function () {
       var url = 'user@host.xz:~user/path/to/repo.git';
       parser(url).should.equal('host.xz/~user/path/to/repo.git');
     });
-    it('should abc4', function () {
+
+    it('should most simplistic local repo url', function () {
       var url = 'repo.git';
       parser(url).should.equal('repo.git');
     });
