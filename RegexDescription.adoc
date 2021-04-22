@@ -1,4 +1,5 @@
 = Regular expression to parse git-urls
+:generated-regex-filename: regex_generated.asc
 
 == Why
 
@@ -19,65 +20,24 @@ In contrast to JavaScript, python and pcre expressions support named groups whic
 .First version which misinterpreted the repository name as host
 ----
 ^(?P<scheme>(?P<protocol>[\w]+)://)?((?P<user>.+)(:(?P<pass>.+))?@)?((?P<host>[\w\d.]+)(:(?P<port>[\d]+))?)?(?P<scporpath>[:/])?(?P<pathtorepo>(?P<namespace>[^/]+)/((?P<project>[^/]+)(\.git)?))/?$
- |          ^-2---------------^   | ||          || |          ||  | ||                || |             || | |                 | |              |                  | ||                ||     | ||
- |                                | |^-4--------^| ^-6--------^|  | |^-8--------------^| ^-10----------^| | ^-11--------------^ |              ^-13---------------^ |^-15-------------^^-16--^ ||
- |                                | |            ^-5-----------^  | |                  ^-9--------------^ |                     |                                 ^-14-------------------------^|
- ^-1------------------------------^ ^-3---------------------------^ ^-7-----------------------------------^                     ^-12------------------------------------------------------------^
-----
-
-[source,regexp]
-.Final version capabale of parsing almost any git url
-----
-(?m)^(?P<scheme>(?P<protocol>[\w]+)://)?(?P<credentials>(?P<user>.+)(:(?P<pass>.+))?@)?((?P<fqdn>(?P<host>([\w\d]+)(\.[\w\d]+)+)(:(?P<port>[\d]+))?)(?=[:/]))?((?P<scporpath>[:/])?(?P<pathtorepo>(?P<namespace>([^/]+/)+)?(?P<project>[^/]+(\.git)?)))/?$
 ----
 
 [source,pythonverboseregexp]
+.Verbose version capabale of parsing almost any git url
+----
+include::{generated-regex-filename}[tags=python-regex-verbose]
+----
+
+[source,pythonregexp]
 .Final version capabale of parsing almost any git url
 ----
-(?m)
-^
-  (?P<scheme>
-    (?P<protocol>[\w]+)
-    ://
-  )?
-  (?P<credentials>
-    (?P<user>.+)
-    (:
-      (?P<pass>.+)
-    )?
-    @
-  )?
-  (
-    (?P<fqdn>
-      (?P<host>
-        ([\w\d]+)
-        (\.[\w\d]+)+
-      )
-      (:
-        (?P<port>[\d]+)
-      )?
-    )
-    (?=[:/])
-  )?
-  (
-    (?P<scporpath>[:/])?
-    (?P<pathtorepo>
-      (?P<namespace>
-        ([^/]+/)+
-      )?
-      (?P<project>[^/]+
-        (\.git)?
-      )
-    )
-  )
-  /?
-$
+include::{generated-regex-filename}[tags=python-regex]
 ----
 
 [source,jsregexp]
 .Regular expression valid in JavaScript
 ----
-/^(([\w]+):\/\/)?((.+)(:(.+))?@)?(((([\w\d]+)(\.[\w\d]+)+)(:([\d]+))?)(?=[:\/]))?(([:\/])?((([^\/]+\/)+)?([^\/]+(\.git)?)))\/?$/
+include::{generated-regex-filename}[tags=javascript-regex]
 ----
 
 == Test data
@@ -86,80 +46,16 @@ Test urls were taken from https://stackoverflow.com/a/2514986/542082 and extende
 
 [source,text]
 ----
-ssh://user@host.xz:1234/path/to/repo.git/
-ssh://user@host.xz/path/to/repo.git/
-ssh://host.xz:1234/path/to/repo.git/
-ssh://host.xz/path/to/repo.git/
-ssh://user@host.xz/path/to/repo.git/
-ssh://host.xz/path/to/repo.git/
-ssh://user@host.xz/~user/path/to/repo.git/
-ssh://host.xz/~user/path/to/repo.git/
-ssh://user@host.xz/~/path/to/repo.git
-ssh://host.xz/~/path/to/repo.git
-user@host.xz:/path/to/repo.git/
-host.xz:/path/to/repo.git/
-user@host.xz:~user/path/to/repo.git/
-host.xz:~user/path/to/repo.git/
-user@host.xz:path/to/repo.git
-host.xz:path/to/repo.git
-rsync://host.xz/path/to/repo.git/
-git://host.xz/path/to/repo.git/
-git://host.xz/~user/path/to/repo.git/
-http://host.xz/path/to/repo.git/
-https://host.xz/path/to/repo.git/
-https://user@host.xz/path/to/repo.git/
-https://user:passwd@host.xz/path/to/repo.git/
-https://user:passwd@host.xz:1234/path/to/repo.git/
-/path/to/repo.git/
-path/to/repo.git/
-~/path/to/repo.git
-file:///path/to/repo.git/
-file://~/path/to/repo.git/
-repo.git
-./path:repo.git
-git://github.com/justgord/.git
+include::git-url-check.py[tags=test-urls]
 ----
+
+== Sample Python program
+
+To prove the regular expression correct, the `git-url-check.py` can be used to print out matched groups of the tested URL's.
+It will also update the file `{generated-regex-filename}` which will contain the verbose regular expression and condensed versions for Python/pcre and JavaScript.
 
 [source,python]
-.python sample
+.Python sample program
 ----
-import re
-
-urls=[
-    'ssh://user@host.xz:1234/path/to/repo.git/',
-    'ssh://user@host.xz/path/to/repo.git/',
-    'ssh://host.xz:1234/path/to/repo.git/',
-    'ssh://host.xz/path/to/repo.git/',
-    'ssh://user@host.xz/path/to/repo.git/',
-    'ssh://host.xz/path/to/repo.git/',
-    'ssh://user@host.xz/~user/path/to/repo.git/',
-    'ssh://host.xz/~user/path/to/repo.git/',
-    'ssh://user@host.xz/~/path/to/repo.git',
-    'ssh://host.xz/~/path/to/repo.git',
-    'user@host.xz:/path/to/repo.git/',
-    'host.xz:/path/to/repo.git/',
-    'user@host.xz:~user/path/to/repo.git/',
-    'host.xz:~user/path/to/repo.git/',
-    'user@host.xz:path/to/repo.git',
-    'host.xz:path/to/repo.git',
-    'rsync://host.xz/path/to/repo.git/',
-    'git://host.xz/path/to/repo.git/',
-    'git://host.xz/~user/path/to/repo.git/',
-    'http://host.xz/path/to/repo.git/',
-    'https://host.xz/path/to/repo.git/',
-    'https://user@host.xz/path/to/repo.git/',
-    'https://user:passwd@host.xz/path/to/repo.git/',
-    'https://user:passwd@host.xz:1234/path/to/repo.git/',
-    '/path/to/repo.git/',
-    'path/to/repo.git/',
-    '~/path/to/repo.git',
-    'file:///path/to/repo.git/',
-    'file://~/path/to/repo.git/',
-    'repo.git',
-    './path:repo.git',
-    'git://github.com/justgord/.git'
-]
-mr=re.compile(r'(?m)^(?P<scheme>(?P<protocol>[\w]+)://)?(?P<credentials>(?P<user>.+)(:(?P<pass>.+))?@)?((?P<fqdn>(?P<host>([\w\d]+)(\.[\w\d]+)+)(:(?P<port>[\d]+))?)(?=[:/]))?((?P<scporpath>[:/])?(?P<pathtorepo>(?P<namespace>([^/]+/)+)?(?P<project>[^/]+(\.git)?)))/?$')
-for u in urls:
-    mr.search(u).groupdict()
+include::git-url-check.py[]
 ----
