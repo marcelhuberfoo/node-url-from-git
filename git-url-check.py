@@ -4,6 +4,7 @@ from pathlib import Path
 CONDENSED_FILENAME = Path(__file__).parent.joinpath('regex_generated.asc')
 
 
+# From here: https://stackoverflow.com/a/14919203
 def unverbosify_regex_simple(verbose_re):
     WS_RX = r'(?<!\\)((\\{2})*)\s+'
     CM_RX = r'(?m)(?<!\\)((\\{2})*)#.*$'
