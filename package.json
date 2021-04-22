@@ -21,9 +21,9 @@
     "company"
   ],
   "devDependencies": {
-    "mocha": "*",
+    "better-assert": "*",
     "chai": "*",
-    "better-assert": "*"
+    "mocha": "*"
   },
   "author": "TonyAdo <coolhzb@163.com>",
   "license": "MIT",
