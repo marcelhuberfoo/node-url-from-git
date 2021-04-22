@@ -1,7 +1,22 @@
 = Changelog
 ifndef::ci_commit_link[:ci_commit_link: link:/../../commit/]
 
-== tag: 0.1.0, develop
+== develop
+* corrected regular expression ({ci_commit_link}0c49e72[0c49e72])
+
+
+* added explanation about the steps to produce the regex ({ci_commit_link}23bf37d[23bf37d])
+
+
+* update regular expression to match almost any git url ({ci_commit_link}51ae3f5[51ae3f5])
+
+== tag: 0.1.0
+* updated regular expression to match any* git url ({ci_commit_link}316f356[316f356])
+
+
+* added changelog ({ci_commit_link}358916c[358916c])
+
+
 * Merge branch 'feature_FixGitUrlReToMatchAnyGitUrl' into develop ({ci_commit_link}e728d19[e728d19])
 
 
