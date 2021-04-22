@@ -1,0 +1,44 @@
+= Changelog
+ifndef::ci_commit_link[:ci_commit_link: link:/../../commit/]
+
+== tag: 0.1.0, develop
+* Merge branch 'feature_FixGitUrlReToMatchAnyGitUrl' into develop ({ci_commit_link}e728d19[e728d19])
+
+
+* updated travis config ({ci_commit_link}6658350[6658350])
+
+
+* updated regular expression to copy with almost any git-url ({ci_commit_link}80d8343[80d8343])
+
+
+* finish the README.md.... ({ci_commit_link}c540975[c540975])
+
+
+* update the index.test.js and README.md.... ({ci_commit_link}4a81c4d[4a81c4d])
+
+
+* update the Readme.md.... ({ci_commit_link}d9b7f3f[d9b7f3f])
+
+
+* add travis ci support.... ({ci_commit_link}97f680a[97f680a])
+
+
+* finish the test script and all test pass…. ({ci_commit_link}16e14aa[16e14aa])
+
+
+* update the index.test.js.... ({ci_commit_link}ca2b8bb[ca2b8bb])
+
+
+* update .travis.yml to enable CI... ({ci_commit_link}d886b9f[d886b9f])
+
+
+* update package.json to add test dependencies.... ({ci_commit_link}3e55216[3e55216])
+
+
+* add the index.js implementation.... ({ci_commit_link}7274cbb[7274cbb])
+
+
+* initial commit, add setup files... ({ci_commit_link}1047b1c[1047b1c])
+
+
+* Initial commit ({ci_commit_link}0d7afdb[0d7afdb])
